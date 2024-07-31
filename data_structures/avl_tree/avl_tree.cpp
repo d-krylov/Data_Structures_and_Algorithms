@@ -1,8 +1,6 @@
 #include "avl_tree.h"
-#include "easyloggingpp/easylogging++.h"
 #include <algorithm>
-
-INITIALIZE_EASYLOGGINGPP
+#include <iostream>
 
 int32_t Height(AVLTreeNode *node) { return node ? node->height_ : 0; }
 
@@ -55,7 +53,7 @@ void AVLTree::VisitInorder(AVLTreeNode *node) {
     VisitInorder(node->children_[0]);
   }
 
-  LOG(INFO) << "Value: " << node->data_;
+  std::cout << "Value: " << node->data_;
 
   if (node->children_[1] != nullptr) {
     VisitInorder(node->children_[1]);

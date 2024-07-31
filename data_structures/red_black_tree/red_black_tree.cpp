@@ -1,7 +1,5 @@
 #include "red_black_tree.h"
-#include "easyloggingpp/easylogging++.h"
-
-INITIALIZE_EASYLOGGINGPP
+#include <iostream>
 
 RedBlackTreeNode sentinel{{&sentinel, &sentinel}, nullptr, Color::BLACK, 0};
 RedBlackTreeNode *NIL = &sentinel;
@@ -9,8 +7,8 @@ RedBlackTreeNode *NIL = &sentinel;
 RedBlackTree::RedBlackTree() { root_ = NIL; }
 
 void RedBlackTree::Rotate(RedBlackTreeNode *node, uint64_t index) {
-  LOG(INFO) << "Rotate: " << node << " "
-            << " Value: " << node->data_;
+  std::cout << "Rotate: " << node << " "
+            << " Value: " << node->data_ << std::endl;
   auto *t = node->children_[1 - index];
   node->children_[1 - index] = t->children_[index];
   if (t != NIL) {
@@ -32,8 +30,8 @@ void RedBlackTree::Rotate(RedBlackTreeNode *node, uint64_t index) {
 }
 
 void RedBlackTree::InsertFixup(RedBlackTreeNode *node) {
-  LOG(INFO) << "Fixup: " << node << " "
-            << "Value: " << node->data_;
+  std::cout << "Fixup: " << node << " "
+            << "Value: " << node->data_ << std::endl;
   while (node != root_ && node->parent_->color_ == Color::RED) {
     auto d = uint64_t(node->parent_ == node->parent_->parent_->children_[0]);
     auto t = node->parent_->parent_->children_[d];
@@ -66,9 +64,6 @@ RedBlackTreeNode *RedBlackTree::Insert(int64_t v) {
     current = current->children_[to];
   }
   node = new RedBlackTreeNode{{NIL, NIL}, parent, Color::RED, v};
-  if (node == nullptr) {
-    LOG(FATAL) << "Oops";
-  }
   if (parent != nullptr) {
     uint64_t d = 1 - uint64_t(v < parent->data_);
     parent->children_[d] = node;
@@ -159,7 +154,7 @@ void RedBlackTree::VisitInorder(RedBlackTreeNode *node) {
     VisitInorder(node->children_[0]);
   }
 
-  LOG(INFO) << "Value: " << node->data_;
+  std::cout << "Value: " << node->data_ << std::endl;
 
   if (node->children_[1] != NIL) {
     VisitInorder(node->children_[1]);
